@@ -1,25 +1,44 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import styled from "styled-components";
+import { createGlobalStyle } from "styled-components";
+import Header from "./header";
+import Main from "./Main";
+import Todos from "./Todos";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const GlobalStyle = createGlobalStyle`
+  *{
+    margin: 0;
+    padding:0;
+    box-sizing: border-box;
+    list-style:none;
+    background-color:black;
+  }
+`;
+
+class Desafio extends Component {
+  state = {
+    pesquisa: "",
+  };
+
+  handleSearch = (event) => {
+    this.setState({ pesquisa: event.target.value });
+  };
+
+  render() {
+    return (
+      <Router>
+        <GlobalStyle />
+        <Header
+          pesquisa={this.state.pesquisa}
+          handleSearch={this.handleSearch}
+        />
+        <Routes>
+          <Route path="/" element={<Main pesquisa={this.state.pesquisa} />} />
+          <Route path="/todos" element={<Todos pesquisa={this.state.pesquisa} />} />
+        </Routes>
+      </Router>
+    );
+  }
 }
-
-export default App;
+export default Desafio;
